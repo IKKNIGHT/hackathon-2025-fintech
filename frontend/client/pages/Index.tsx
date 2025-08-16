@@ -230,26 +230,6 @@ export default function Index() {
               <h3 className="font-semibold mb-4">Platform</h3>
               <ul className="space-y-2 text-sm">
                 <li><Link to="/dashboard" className="text-muted-foreground hover:text-foreground">Dashboard</Link></li>
-                <li><Link to="/features" className="text-muted-foreground hover:text-foreground">Features</Link></li>
-                <li><Link to="/learn" className="text-muted-foreground hover:text-foreground">Learning Center</Link></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="font-semibold mb-4">Learn</h3>
-              <ul className="space-y-2 text-sm">
-                <li><Link to="/tutorials" className="text-muted-foreground hover:text-foreground">Tutorials</Link></li>
-                <li><Link to="/blog" className="text-muted-foreground hover:text-foreground">Blog</Link></li>
-                <li><Link to="/community" className="text-muted-foreground hover:text-foreground">Community</Link></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="font-semibold mb-4">Company</h3>
-              <ul className="space-y-2 text-sm">
-                <li><Link to="/about" className="text-muted-foreground hover:text-foreground">About</Link></li>
-                <li><Link to="/contact" className="text-muted-foreground hover:text-foreground">Contact</Link></li>
-                <li><Link to="/careers" className="text-muted-foreground hover:text-foreground">Careers</Link></li>
               </ul>
             </div>
           </div>
