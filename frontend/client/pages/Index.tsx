@@ -3,6 +3,8 @@ import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
 import { ArrowRight, Brain, TrendingUp, Target, Users, Shield, Zap, BarChart3, Gamepad2 } from 'lucide-react'
+import { motion, useInView } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
 
 export default function Index() {
   return (
