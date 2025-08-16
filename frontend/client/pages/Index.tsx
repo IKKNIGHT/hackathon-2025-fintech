@@ -448,52 +448,115 @@ export default function Index() {
       </section>
 
       {/* CTA Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-4xl font-bold mb-6">
+      <section ref={ctaRef} className="container mx-auto px-4 py-20">
+        <motion.div
+          initial={{ y: 50, opacity: 0 }}
+          animate={ctaInView ? { y: 0, opacity: 1 } : {}}
+          transition={{ duration: 0.8 }}
+          className="text-center max-w-3xl mx-auto"
+        >
+          <motion.h2
+            initial={{ y: 30, opacity: 0 }}
+            animate={ctaInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-4xl font-bold mb-6"
+          >
             Ready to Transform Your Financial Future?
-          </h2>
-          <p className="text-xl text-muted-foreground mb-8">
+          </motion.h2>
+          <motion.p
+            initial={{ y: 30, opacity: 0 }}
+            animate={ctaInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-xl text-muted-foreground mb-8"
+          >
             Join thousands of teens already building wealth-building habits with StockQuest's AI-powered platform.
-            <strong className="block mt-2 text-gradient">No sign-up required • Always free</strong>
-          </p>
-          <Button size="lg" asChild className="gradient-stockquest border-0 text-lg px-12 py-6">
-            <Link to="/dashboard">
-              Start Your Journey <ArrowRight className="ml-2 w-5 h-5" />
-            </Link>
-          </Button>
-        </div>
+            <motion.strong
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={ctaInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              className="block mt-2 text-gradient"
+            >
+              No sign-up required • Always free
+            </motion.strong>
+          </motion.p>
+          <motion.div
+            initial={{ y: 30, opacity: 0 }}
+            animate={ctaInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Button size="lg" asChild className="gradient-stockquest border-0 text-lg px-12 py-6">
+              <Link to="/dashboard">
+                Start Your Journey
+                <motion.div
+                  className="ml-2 inline-block"
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  <ArrowRight className="w-5 h-5" />
+                </motion.div>
+              </Link>
+            </Button>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t bg-muted/30">
+      <motion.footer
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 0.5 }}
+        className="border-t bg-muted/30"
+      >
         <div className="container mx-auto px-4 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <motion.div
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.7 }}
+            className="grid grid-cols-1 md:grid-cols-4 gap-8"
+          >
             <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 gradient-stockquest rounded-lg flex items-center justify-center">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="flex items-center space-x-2 mb-4"
+              >
+                <motion.div
+                  whileHover={{ rotate: 360 }}
+                  transition={{ duration: 0.6 }}
+                  className="w-8 h-8 gradient-stockquest rounded-lg flex items-center justify-center"
+                >
                   <TrendingUp className="w-5 h-5 text-white" />
-                </div>
+                </motion.div>
                 <span className="text-xl font-bold text-gradient">StockQuest</span>
-              </div>
+              </motion.div>
               <p className="text-sm text-muted-foreground">
                 Democratizing financial literacy for the next generation through AI-powered learning.
               </p>
             </div>
-            
+
             <div>
               <h3 className="font-semibold mb-4">Platform</h3>
               <ul className="space-y-2 text-sm">
-                <li><Link to="/dashboard" className="text-muted-foreground hover:text-foreground">Dashboard</Link></li>
+                <li>
+                  <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                    <Link to="/dashboard" className="text-muted-foreground hover:text-foreground">Dashboard</Link>
+                  </motion.div>
+                </li>
               </ul>
             </div>
-          </div>
-          
-          <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1 }}
+            className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground"
+          >
             <p>&copy; 2024 StockQuest. All rights reserved. Built for K8s deployment.</p>
-          </div>
+          </motion.div>
         </div>
-      </footer>
+      </motion.footer>
     </div>
   )
 }
