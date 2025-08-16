@@ -4,13 +4,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../co
 import { Badge } from '../components/ui/badge'
 import { Progress } from '../components/ui/progress'
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar'
-import { 
-  TrendingUp, 
-  TrendingDown, 
-  Brain, 
-  Trophy, 
-  Target, 
-  Zap, 
+import {
+  TrendingUp,
+  TrendingDown,
+  Brain,
+  Trophy,
+  Target,
+  Zap,
   DollarSign,
   LineChart,
   AlertTriangle,
@@ -18,6 +18,8 @@ import {
   Clock,
   Star
 } from 'lucide-react'
+import { motion, useInView } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
 
 export default function Dashboard() {
   const mockStocks = [
