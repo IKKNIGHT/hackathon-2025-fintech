@@ -96,46 +96,132 @@ export default function Index() {
       </motion.nav>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="text-center max-w-4xl mx-auto">
-          <Badge className="mb-6 px-4 py-2 bg-blue-100 text-blue-800 border-blue-200">
-            <Zap className="w-4 h-4 mr-2" />
-            AI-Powered Financial Learning
-          </Badge>
-          
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+      <section ref={heroRef} className="container mx-auto px-4 py-20 relative">
+        {/* Floating background elements */}
+        <motion.div
+          animate={{
+            y: [0, -20, 0],
+            rotate: [0, 5, 0]
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute top-20 left-10 w-20 h-20 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-xl"
+        />
+        <motion.div
+          animate={{
+            y: [0, 20, 0],
+            rotate: [0, -3, 0]
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1
+          }}
+          className="absolute top-40 right-20 w-32 h-32 bg-gradient-to-r from-purple-400/20 to-pink-400/20 rounded-full blur-xl"
+        />
+
+        <div className="text-center max-w-4xl mx-auto relative z-10">
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={heroInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Badge className="mb-6 px-4 py-2 bg-blue-100 text-blue-800 border-blue-200">
+                <motion.div
+                  animate={{ rotate: [0, 10, -10, 0] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <Zap className="w-4 h-4 mr-2" />
+                </motion.div>
+                AI-Powered Financial Learning
+              </Badge>
+            </motion.div>
+          </motion.div>
+
+          <motion.h1
+            initial={{ y: 50, opacity: 0 }}
+            animate={heroInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
+          >
             Master{' '}
-            <span className="text-gradient">
+            <motion.span
+              className="text-gradient inline-block"
+              whileHover={{ scale: 1.1 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
               Finance
-            </span>
+            </motion.span>
             {' '}Through{' '}
-            <span className="text-gradient">
+            <motion.span
+              className="text-gradient inline-block"
+              whileHover={{ scale: 1.1 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
               AI-Driven
-            </span>
+            </motion.span>
             {' '}Learning
-          </h1>
-          
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+          </motion.h1>
+
+          <motion.p
+            initial={{ y: 50, opacity: 0 }}
+            animate={heroInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+            className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed"
+          >
             The first real-time, event-driven financial learning platform for teens.
             Build wealth-building habits with personalized AI insights and behavioral finance coaching.
-            <strong className="block mt-2 text-gradient">Completely Free Forever!</strong>
-          </p>
-          
+            <motion.strong
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={heroInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.6, delay: 1 }}
+              className="block mt-2 text-gradient"
+            >
+              Completely Free Forever!
+            </motion.strong>
+          </motion.p>
+
           {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-gradient">50K+</div>
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={heroInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto"
+          >
+            <motion.div
+              whileHover={{ scale: 1.1, y: -10 }}
+              className="text-center"
+            >
+              <div className="text-3xl font-bold text-gradient">
+                <AnimatedCounter end={50} suffix="K+" />
+              </div>
               <div className="text-sm text-muted-foreground">Teen Learners</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-gradient">98%</div>
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.1, y: -10 }}
+              className="text-center"
+            >
+              <div className="text-3xl font-bold text-gradient">
+                <AnimatedCounter end={98} suffix="%" />
+              </div>
               <div className="text-sm text-muted-foreground">Improvement Rate</div>
-            </div>
-            <div className="text-center">
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.1, y: -10 }}
+              className="text-center"
+            >
               <div className="text-3xl font-bold text-gradient">Real-time</div>
               <div className="text-sm text-muted-foreground">Market Data</div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
