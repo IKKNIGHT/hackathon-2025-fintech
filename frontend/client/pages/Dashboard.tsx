@@ -64,15 +64,6 @@ export default function Dashboard() {
             <Link to="/dashboard" className="text-foreground font-medium">
               Dashboard
             </Link>
-            <Link to="/portfolio" className="text-muted-foreground hover:text-foreground transition-colors">
-              Portfolio
-            </Link>
-            <Link to="/learn" className="text-muted-foreground hover:text-foreground transition-colors">
-              Learn
-            </Link>
-            <Link to="/challenges" className="text-muted-foreground hover:text-foreground transition-colors">
-              Challenges
-            </Link>
           </div>
 
           <div className="flex items-center space-x-3">
