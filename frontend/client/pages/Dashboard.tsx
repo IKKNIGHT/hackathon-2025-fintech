@@ -306,84 +306,161 @@ export default function Dashboard() {
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
             {/* AI Behavioral Insights */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Brain className="w-5 h-5 text-primary" />
-                  <span>AI Behavioral Insights</span>
-                  <Badge variant="secondary">Real-time</Badge>
-                </CardTitle>
-                <CardDescription>
-                  Personalized feedback based on your trading patterns and behavioral analysis
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {aiInsights.map((insight, index) => (
-                  <div key={index} className="flex items-start space-x-3 p-4 rounded-lg border">
-                    <div className="flex-shrink-0">
-                      {insight.type === 'warning' && <AlertTriangle className="w-5 h-5 text-yellow-500" />}
-                      {insight.type === 'success' && <CheckCircle className="w-5 h-5 text-green-500" />}
-                      {insight.type === 'info' && <Brain className="w-5 h-5 text-blue-500" />}
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-medium mb-1">{insight.title}</h4>
-                      <p className="text-sm text-muted-foreground mb-2">{insight.message}</p>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-xs text-muted-foreground">Confidence:</span>
-                        <Progress value={insight.confidence} className="w-20 h-2" />
-                        <span className="text-xs font-medium">{insight.confidence}%</span>
+            <motion.div
+              ref={insightsRef}
+              initial={{ y: 50, opacity: 0 }}
+              animate={insightsInView ? { y: 0, opacity: 1 } : {}}
+              transition={{ duration: 0.8 }}
+            >
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <motion.div
+                      animate={{ scale: [1, 1.1, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      <Brain className="w-5 h-5 text-primary" />
+                    </motion.div>
+                    <span>AI Behavioral Insights</span>
+                    <motion.div
+                      animate={{ opacity: [1, 0.5, 1] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                      <Badge variant="secondary">Real-time</Badge>
+                    </motion.div>
+                  </CardTitle>
+                  <CardDescription>
+                    Personalized feedback based on your trading patterns and behavioral analysis
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {aiInsights.map((insight, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ x: -50, opacity: 0 }}
+                      animate={insightsInView ? { x: 0, opacity: 1 } : {}}
+                      transition={{ duration: 0.6, delay: index * 0.2 }}
+                      whileHover={{ scale: 1.02, x: 5 }}
+                      className="flex items-start space-x-3 p-4 rounded-lg border"
+                    >
+                      <motion.div
+                        className="flex-shrink-0"
+                        whileHover={{ scale: 1.2, rotate: 5 }}
+                      >
+                        {insight.type === 'warning' && <AlertTriangle className="w-5 h-5 text-yellow-500" />}
+                        {insight.type === 'success' && <CheckCircle className="w-5 h-5 text-green-500" />}
+                        {insight.type === 'info' && <Brain className="w-5 h-5 text-blue-500" />}
+                      </motion.div>
+                      <div className="flex-1">
+                        <h4 className="font-medium mb-1">{insight.title}</h4>
+                        <p className="text-sm text-muted-foreground mb-2">{insight.message}</p>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-xs text-muted-foreground">Confidence:</span>
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={insightsInView ? { width: "5rem" } : {}}
+                            transition={{ duration: 1, delay: index * 0.2 + 0.5 }}
+                          >
+                            <Progress value={insight.confidence} className="w-20 h-2" />
+                          </motion.div>
+                          <span className="text-xs font-medium">{insight.confidence}%</span>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
+                    </motion.div>
+                  ))}
+                </CardContent>
+              </Card>
+            </motion.div>
 
             {/* Real-time Market Data */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <LineChart className="w-5 h-5 text-primary" />
-                  <span>Market Simulation</span>
-                  <div className="flex items-center space-x-1">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    <span className="text-xs text-green-600">Live</span>
-                  </div>
-                </CardTitle>
-                <CardDescription>
-                  Practice trading with real-time market data
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {mockStocks.map((stock, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 transition-colors">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
-                          <span className="text-white font-bold text-sm">{stock.symbol.charAt(0)}</span>
-                        </div>
-                        <div>
-                          <div className="font-medium">{stock.symbol}</div>
-                          <div className="text-sm text-muted-foreground">${stock.price.toFixed(2)}</div>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className={`flex items-center space-x-1 ${stock.change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                          {stock.change >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
-                          <span className="font-medium">{stock.change >= 0 ? '+' : ''}{stock.change.toFixed(2)}</span>
-                        </div>
-                        <div className={`text-sm ${stock.changePercent >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                          {stock.changePercent >= 0 ? '+' : ''}{stock.changePercent.toFixed(2)}%
-                        </div>
-                      </div>
+            <motion.div
+              initial={{ y: 50, opacity: 0 }}
+              animate={insightsInView ? { y: 0, opacity: 1 } : {}}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <motion.div
+                      animate={{ rotate: [0, 5, -5, 0] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      <LineChart className="w-5 h-5 text-primary" />
+                    </motion.div>
+                    <span>Market Simulation</span>
+                    <div className="flex items-center space-x-1">
+                      <motion.div
+                        className="w-2 h-2 bg-green-500 rounded-full"
+                        animate={{ scale: [1, 1.5, 1] }}
+                        transition={{ duration: 1, repeat: Infinity }}
+                      />
+                      <span className="text-xs text-green-600">Live</span>
                     </div>
-                  ))}
-                </div>
-                <Button className="w-full mt-4" variant="outline">
-                  Open Trading Simulator
-                </Button>
-              </CardContent>
-            </Card>
+                  </CardTitle>
+                  <CardDescription>
+                    Practice trading with real-time market data
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {mockStocks.map((stock, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ x: -30, opacity: 0 }}
+                        animate={insightsInView ? { x: 0, opacity: 1 } : {}}
+                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                        whileHover={{
+                          x: 5,
+                          scale: 1.02,
+                          transition: { duration: 0.2 }
+                        }}
+                        className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 transition-colors cursor-pointer"
+                      >
+                        <div className="flex items-center space-x-3">
+                          <motion.div
+                            whileHover={{ scale: 1.1, rotate: 10 }}
+                            className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center"
+                          >
+                            <span className="text-white font-bold text-sm">{stock.symbol.charAt(0)}</span>
+                          </motion.div>
+                          <div>
+                            <div className="font-medium">{stock.symbol}</div>
+                            <div className="text-sm text-muted-foreground">${stock.price.toFixed(2)}</div>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <motion.div
+                            className={`flex items-center space-x-1 ${stock.change >= 0 ? 'text-green-600' : 'text-red-600'}`}
+                            whileHover={{ scale: 1.1 }}
+                          >
+                            <motion.div
+                              animate={{
+                                y: stock.change >= 0 ? [-2, 2, -2] : [2, -2, 2]
+                              }}
+                              transition={{ duration: 2, repeat: Infinity }}
+                            >
+                              {stock.change >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+                            </motion.div>
+                            <span className="font-medium">{stock.change >= 0 ? '+' : ''}{stock.change.toFixed(2)}</span>
+                          </motion.div>
+                          <div className={`text-sm ${stock.changePercent >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                            {stock.changePercent >= 0 ? '+' : ''}{stock.changePercent.toFixed(2)}%
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Button className="w-full mt-4" variant="outline">
+                      Open Trading Simulator
+                    </Button>
+                  </motion.div>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
         </div>
       </div>
