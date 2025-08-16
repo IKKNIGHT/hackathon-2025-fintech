@@ -65,20 +65,56 @@ export default function Dashboard() {
 
   const [portfolio, setPortfolio] = useState<{[key: string]: number}>({})
 
-  const mockStocks = [
-    { symbol: 'AAPL', name: 'Apple Inc.', price: 185.25, change: 2.34, changePercent: 1.28, volume: '47.2M', marketCap: '2.85T' },
-    { symbol: 'GOOGL', name: 'Alphabet Inc.', price: 2847.91, change: -15.42, changePercent: -0.54, volume: '18.3M', marketCap: '1.82T' },
-    { symbol: 'TSLA', name: 'Tesla Inc.', price: 248.87, change: 8.91, changePercent: 3.71, volume: '89.1M', marketCap: '790B' },
-    { symbol: 'MSFT', name: 'Microsoft Corp.', price: 337.29, change: 1.84, changePercent: 0.55, volume: '32.7M', marketCap: '2.51T' },
-    { symbol: 'AMZN', name: 'Amazon.com Inc.', price: 3127.45, change: -22.15, changePercent: -0.70, volume: '28.9M', marketCap: '1.59T' },
-    { symbol: 'NVDA', name: 'NVIDIA Corp.', price: 524.17, change: 15.73, changePercent: 3.09, volume: '56.4M', marketCap: '1.29T' },
-    { symbol: 'META', name: 'Meta Platforms', price: 298.52, change: -3.21, changePercent: -1.06, volume: '19.8M', marketCap: '751B' },
-    { symbol: 'NFLX', name: 'Netflix Inc.', price: 456.89, change: 12.34, changePercent: 2.78, volume: '7.2M', marketCap: '203B' },
-    { symbol: 'AMD', name: 'Advanced Micro Devices', price: 118.67, change: -2.45, changePercent: -2.02, volume: '41.6M', marketCap: '192B' },
-    { symbol: 'CRM', name: 'Salesforce Inc.', price: 267.43, change: 4.12, changePercent: 1.56, volume: '5.9M', marketCap: '267B' },
-    { symbol: 'ORCL', name: 'Oracle Corp.', price: 109.87, change: 0.93, changePercent: 0.85, volume: '29.3M', marketCap: '312B' },
-    { symbol: 'INTC', name: 'Intel Corp.', price: 32.45, change: -0.87, changePercent: -2.61, volume: '35.1M', marketCap: '134B' }
+  const initialStocks = [
+    { symbol: 'AAPL', name: 'Apple Inc.', price: 185.25, change: 2.34, changePercent: 1.28, volume: '47.2M', marketCap: '2.85T', basePrice: 185.25 },
+    { symbol: 'GOOGL', name: 'Alphabet Inc.', price: 2847.91, change: -15.42, changePercent: -0.54, volume: '18.3M', marketCap: '1.82T', basePrice: 2847.91 },
+    { symbol: 'TSLA', name: 'Tesla Inc.', price: 248.87, change: 8.91, changePercent: 3.71, volume: '89.1M', marketCap: '790B', basePrice: 248.87 },
+    { symbol: 'MSFT', name: 'Microsoft Corp.', price: 337.29, change: 1.84, changePercent: 0.55, volume: '32.7M', marketCap: '2.51T', basePrice: 337.29 },
+    { symbol: 'AMZN', name: 'Amazon.com Inc.', price: 3127.45, change: -22.15, changePercent: -0.70, volume: '28.9M', marketCap: '1.59T', basePrice: 3127.45 },
+    { symbol: 'NVDA', name: 'NVIDIA Corp.', price: 524.17, change: 15.73, changePercent: 3.09, volume: '56.4M', marketCap: '1.29T', basePrice: 524.17 },
+    { symbol: 'META', name: 'Meta Platforms', price: 298.52, change: -3.21, changePercent: -1.06, volume: '19.8M', marketCap: '751B', basePrice: 298.52 },
+    { symbol: 'NFLX', name: 'Netflix Inc.', price: 456.89, change: 12.34, changePercent: 2.78, volume: '7.2M', marketCap: '203B', basePrice: 456.89 },
+    { symbol: 'AMD', name: 'Advanced Micro Devices', price: 118.67, change: -2.45, changePercent: -2.02, volume: '41.6M', marketCap: '192B', basePrice: 118.67 },
+    { symbol: 'CRM', name: 'Salesforce Inc.', price: 267.43, change: 4.12, changePercent: 1.56, volume: '5.9M', marketCap: '267B', basePrice: 267.43 },
+    { symbol: 'ORCL', name: 'Oracle Corp.', price: 109.87, change: 0.93, changePercent: 0.85, volume: '29.3M', marketCap: '312B', basePrice: 109.87 },
+    { symbol: 'INTC', name: 'Intel Corp.', price: 32.45, change: -0.87, changePercent: -2.61, volume: '35.1M', marketCap: '134B', basePrice: 32.45 }
   ]
+
+  const [mockStocks, setMockStocks] = useState(initialStocks)
+
+  // Real-time price updates
+  useEffect(() => {
+    const updatePrices = () => {
+      setMockStocks(prevStocks =>
+        prevStocks.map(stock => {
+          // Generate random price change between -2% to +2%
+          const changePercent = (Math.random() - 0.5) * 4 // -2 to +2
+          const priceChange = stock.basePrice * (changePercent / 100)
+          const newPrice = Math.max(0.01, stock.basePrice + priceChange) // Ensure price doesn't go negative
+          const change = newPrice - stock.basePrice
+          const changePercentage = ((change / stock.basePrice) * 100)
+
+          return {
+            ...stock,
+            price: parseFloat(newPrice.toFixed(2)),
+            change: parseFloat(change.toFixed(2)),
+            changePercent: parseFloat(changePercentage.toFixed(2))
+          }
+        })
+      )
+    }
+
+    // Update prices every 3 seconds
+    const interval = setInterval(updatePrices, 3000)
+
+    // Initial update after 1 second
+    const timeout = setTimeout(updatePrices, 1000)
+
+    return () => {
+      clearInterval(interval)
+      clearTimeout(timeout)
+    }
+  }, [])
 
   const aiInsights = [
     {
