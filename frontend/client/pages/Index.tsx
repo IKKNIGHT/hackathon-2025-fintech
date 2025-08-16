@@ -21,12 +21,6 @@ export default function Index() {
             <Link to="/dashboard" className="text-muted-foreground hover:text-foreground transition-colors">
               Platform
             </Link>
-            <Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors">
-              About
-            </Link>
-            <Link to="/learn" className="text-muted-foreground hover:text-foreground transition-colors">
-              Learn
-            </Link>
           </div>
 
           <div className="flex items-center space-x-3">
@@ -62,19 +56,6 @@ export default function Index() {
             Build wealth-building habits with personalized AI insights and behavioral finance coaching.
             <strong className="block mt-2 text-gradient">Completely Free Forever!</strong>
           </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Button size="lg" asChild className="gradient-stockquest border-0 text-lg px-8 py-6">
-              <Link to="/dashboard">
-                Start Learning <ArrowRight className="ml-2 w-5 h-5" />
-              </Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild className="text-lg px-8 py-6">
-              <Link to="/demo">
-                Watch Demo
-              </Link>
-            </Button>
-          </div>
           
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto">
