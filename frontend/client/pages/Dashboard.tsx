@@ -172,54 +172,135 @@ export default function Dashboard() {
         </div>
       </motion.nav>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 relative z-10">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Welcome back! 👋</h1>
-          <p className="text-muted-foreground">Here's your financial learning progress and market insights.</p>
-        </div>
+        <motion.div
+          ref={headerRef}
+          initial={{ y: 50, opacity: 0 }}
+          animate={headerInView ? { y: 0, opacity: 1 } : {}}
+          transition={{ duration: 0.8 }}
+          className="mb-8"
+        >
+          <motion.h1
+            initial={{ y: 30, opacity: 0 }}
+            animate={headerInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-3xl font-bold mb-2"
+          >
+            Welcome back! <motion.span animate={{ rotate: [0, 20, 0] }} transition={{ duration: 0.6, delay: 1 }}>👋</motion.span>
+          </motion.h1>
+          <motion.p
+            initial={{ y: 20, opacity: 0 }}
+            animate={headerInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-muted-foreground"
+          >
+            Here's your financial learning progress and market insights.
+          </motion.p>
+        </motion.div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Portfolio Value</CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">$12,847.92</div>
-              <p className="text-xs text-muted-foreground">
-                <span className="text-green-600">+284.73 (2.28%)</span> from last week
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <Zap className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">23 Days</div>
-              <p className="text-xs text-muted-foreground">
-                Personal best! Keep going 🔥
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">AI Confidence</CardTitle>
-              <Brain className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">87%</div>
-              <p className="text-xs text-muted-foreground">
-                Risk profile accuracy
-              </p>
-            </CardContent>
-          </Card>
+        <motion.div
+          ref={statsRef}
+          initial={{ opacity: 0 }}
+          animate={statsInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6 }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
+        >
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={statsInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            whileHover={{
+              y: -5,
+              scale: 1.02,
+              transition: { duration: 0.2 }
+            }}
+          >
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Portfolio Value</CardTitle>
+                <motion.div
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <DollarSign className="h-4 w-4 text-muted-foreground" />
+                </motion.div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">
+                  $<AnimatedCounter end={12847} />.<AnimatedCounter end={92} />
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  <span className="text-green-600">+284.73 (2.28%)</span> from last week
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
 
-        </div>
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={statsInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            whileHover={{
+              y: -5,
+              scale: 1.02,
+              transition: { duration: 0.2 }
+            }}
+          >
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Learning Streak</CardTitle>
+                <motion.div
+                  animate={{ rotate: [0, 10, -10, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  <Zap className="h-4 w-4 text-muted-foreground" />
+                </motion.div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">
+                  <AnimatedCounter end={23} /> Days
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Personal best! Keep going 🔥
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={statsInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            whileHover={{
+              y: -5,
+              scale: 1.02,
+              transition: { duration: 0.2 }
+            }}
+          >
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">AI Confidence</CardTitle>
+                <motion.div
+                  animate={{ scale: [1, 1.1, 1] }}
+                  transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+                >
+                  <Brain className="h-4 w-4 text-muted-foreground" />
+                </motion.div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">
+                  <AnimatedCounter end={87} />%
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Risk profile accuracy
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+        </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
