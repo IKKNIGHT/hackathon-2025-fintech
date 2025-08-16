@@ -44,28 +44,56 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-blue-50/30 to-purple-50/20 overflow-hidden">
       {/* Navigation */}
-      <nav className="border-b bg-background/80 backdrop-blur-lg sticky top-0 z-50">
+      <motion.nav
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="border-b bg-background/80 backdrop-blur-lg sticky top-0 z-50"
+      >
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 gradient-stockquest rounded-lg flex items-center justify-center">
+          <motion.div
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex items-center space-x-2"
+          >
+            <motion.div
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-8 h-8 gradient-stockquest rounded-lg flex items-center justify-center"
+            >
               <TrendingUp className="w-5 h-5 text-white" />
-            </div>
+            </motion.div>
             <span className="text-xl font-bold text-gradient">StockQuest</span>
-          </div>
-          
-          <div className="hidden md:flex items-center space-x-6">
-            <Link to="/dashboard" className="text-muted-foreground hover:text-foreground transition-colors">
-              Platform
-            </Link>
-          </div>
+          </motion.div>
 
-          <div className="flex items-center space-x-3">
-            <Button asChild className="gradient-stockquest border-0">
-              <Link to="/dashboard">Start Learning</Link>
-            </Button>
-          </div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="hidden md:flex items-center space-x-6"
+          >
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link to="/dashboard" className="text-muted-foreground hover:text-foreground transition-colors">
+                Platform
+              </Link>
+            </motion.div>
+          </motion.div>
+
+          <motion.div
+            initial={{ x: 50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="flex items-center space-x-3"
+          >
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button asChild className="gradient-stockquest border-0">
+                <Link to="/dashboard">Start Learning</Link>
+              </Button>
+            </motion.div>
+          </motion.div>
         </div>
-      </nav>
+      </motion.nav>
 
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-20">
