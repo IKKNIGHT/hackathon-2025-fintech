@@ -90,30 +90,87 @@ export default function Dashboard() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-blue-50/30 to-purple-50/20">
-      {/* Navigation */}
-      <nav className="border-b bg-background/80 backdrop-blur-lg sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 gradient-stockquest rounded-lg flex items-center justify-center">
-              <TrendingUp className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold text-gradient">StockQuest</span>
-          </div>
-          
-          <div className="hidden md:flex items-center space-x-6">
-            <Link to="/dashboard" className="text-foreground font-medium">
-              Dashboard
-            </Link>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-background via-blue-50/30 to-purple-50/20 overflow-hidden">
+      {/* Floating background elements */}
+      <motion.div
+        animate={{
+          y: [0, -15, 0],
+          x: [0, 10, 0],
+          rotate: [0, 3, 0]
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        className="absolute top-32 left-20 w-24 h-24 bg-gradient-to-r from-blue-400/10 to-purple-400/10 rounded-full blur-xl"
+      />
+      <motion.div
+        animate={{
+          y: [0, 15, 0],
+          x: [0, -8, 0],
+          rotate: [0, -2, 0]
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 2
+        }}
+        className="absolute top-64 right-32 w-32 h-32 bg-gradient-to-r from-purple-400/10 to-pink-400/10 rounded-full blur-xl"
+      />
 
-          <div className="flex items-center space-x-3">
-            <Button variant="ghost" asChild>
-              <Link to="/">Home</Link>
-            </Button>
-          </div>
+      {/* Navigation */}
+      <motion.nav
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="border-b bg-background/80 backdrop-blur-lg sticky top-0 z-50"
+      >
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <motion.div
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex items-center space-x-2"
+          >
+            <motion.div
+              whileHover={{ scale: 1.1, rotate: 10 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-8 h-8 gradient-stockquest rounded-lg flex items-center justify-center"
+            >
+              <TrendingUp className="w-5 h-5 text-white" />
+            </motion.div>
+            <span className="text-xl font-bold text-gradient">StockQuest</span>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="hidden md:flex items-center space-x-6"
+          >
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link to="/dashboard" className="text-foreground font-medium">
+                Dashboard
+              </Link>
+            </motion.div>
+          </motion.div>
+
+          <motion.div
+            initial={{ x: 50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="flex items-center space-x-3"
+          >
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button variant="ghost" asChild>
+                <Link to="/">Home</Link>
+              </Button>
+            </motion.div>
+          </motion.div>
         </div>
-      </nav>
+      </motion.nav>
 
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
