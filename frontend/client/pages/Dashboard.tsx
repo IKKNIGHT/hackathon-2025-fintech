@@ -16,7 +16,9 @@ import {
   AlertTriangle,
   CheckCircle,
   Clock,
-  Star
+  Star,
+  ShoppingCart,
+  Banknote
 } from 'lucide-react'
 import { motion, useInView } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
@@ -61,11 +63,21 @@ export default function Dashboard() {
   const statsInView = useInView(statsRef, { once: true })
   const insightsInView = useInView(insightsRef, { once: true })
 
+  const [portfolio, setPortfolio] = useState<{[key: string]: number}>({})
+
   const mockStocks = [
-    { symbol: 'AAPL', price: 185.25, change: 2.34, changePercent: 1.28 },
-    { symbol: 'GOOGL', price: 2847.91, change: -15.42, changePercent: -0.54 },
-    { symbol: 'TSLA', price: 248.87, change: 8.91, changePercent: 3.71 },
-    { symbol: 'MSFT', price: 337.29, change: 1.84, changePercent: 0.55 },
+    { symbol: 'AAPL', name: 'Apple Inc.', price: 185.25, change: 2.34, changePercent: 1.28, volume: '47.2M', marketCap: '2.85T' },
+    { symbol: 'GOOGL', name: 'Alphabet Inc.', price: 2847.91, change: -15.42, changePercent: -0.54, volume: '18.3M', marketCap: '1.82T' },
+    { symbol: 'TSLA', name: 'Tesla Inc.', price: 248.87, change: 8.91, changePercent: 3.71, volume: '89.1M', marketCap: '790B' },
+    { symbol: 'MSFT', name: 'Microsoft Corp.', price: 337.29, change: 1.84, changePercent: 0.55, volume: '32.7M', marketCap: '2.51T' },
+    { symbol: 'AMZN', name: 'Amazon.com Inc.', price: 3127.45, change: -22.15, changePercent: -0.70, volume: '28.9M', marketCap: '1.59T' },
+    { symbol: 'NVDA', name: 'NVIDIA Corp.', price: 524.17, change: 15.73, changePercent: 3.09, volume: '56.4M', marketCap: '1.29T' },
+    { symbol: 'META', name: 'Meta Platforms', price: 298.52, change: -3.21, changePercent: -1.06, volume: '19.8M', marketCap: '751B' },
+    { symbol: 'NFLX', name: 'Netflix Inc.', price: 456.89, change: 12.34, changePercent: 2.78, volume: '7.2M', marketCap: '203B' },
+    { symbol: 'AMD', name: 'Advanced Micro Devices', price: 118.67, change: -2.45, changePercent: -2.02, volume: '41.6M', marketCap: '192B' },
+    { symbol: 'CRM', name: 'Salesforce Inc.', price: 267.43, change: 4.12, changePercent: 1.56, volume: '5.9M', marketCap: '267B' },
+    { symbol: 'ORCL', name: 'Oracle Corp.', price: 109.87, change: 0.93, changePercent: 0.85, volume: '29.3M', marketCap: '312B' },
+    { symbol: 'INTC', name: 'Intel Corp.', price: 32.45, change: -0.87, changePercent: -2.61, volume: '35.1M', marketCap: '134B' }
   ]
 
   const aiInsights = [
@@ -88,6 +100,24 @@ export default function Dashboard() {
       confidence: 78
     }
   ]
+
+  const handleBuy = (symbol: string, price: number) => {
+    setPortfolio(prev => ({
+      ...prev,
+      [symbol]: (prev[symbol] || 0) + 1
+    }))
+    console.log(`Bought 1 share of ${symbol} at $${price}`)
+  }
+
+  const handleSell = (symbol: string, price: number) => {
+    if (portfolio[symbol] && portfolio[symbol] > 0) {
+      setPortfolio(prev => ({
+        ...prev,
+        [symbol]: prev[symbol] - 1
+      }))
+      console.log(`Sold 1 share of ${symbol} at $${price}`)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-blue-50/30 to-purple-50/20 overflow-hidden">
@@ -127,7 +157,7 @@ export default function Dashboard() {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="border-b bg-background/80 backdrop-blur-lg sticky top-0 z-50"
       >
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="max-w-none px-4 py-4 flex items-center justify-between">
           <motion.div
             initial={{ x: -50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
@@ -172,7 +202,7 @@ export default function Dashboard() {
         </div>
       </motion.nav>
 
-      <div className="container mx-auto px-4 py-8 relative z-10">
+      <div className="max-w-none px-4 py-8 relative z-10">
         {/* Header */}
         <motion.div
           ref={headerRef}
@@ -300,11 +330,173 @@ export default function Dashboard() {
             </Card>
           </motion.div>
 
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={statsInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            whileHover={{
+              y: -5,
+              scale: 1.02,
+              transition: { duration: 0.2 }
+            }}
+          >
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Total Holdings</CardTitle>
+                <motion.div
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <ShoppingCart className="h-4 w-4 text-muted-foreground" />
+                </motion.div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">
+                  <AnimatedCounter end={Object.values(portfolio).reduce((sum, shares) => sum + shares, 0)} />
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Shares owned
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-8">
+          {/* Main Content - Full Width */}
+          <div className="lg:col-span-3 space-y-8">
+            {/* Real-time Market Data */}
+            <motion.div
+              initial={{ y: 50, opacity: 0 }}
+              animate={insightsInView ? { y: 0, opacity: 1 } : {}}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <motion.div
+                      animate={{ rotate: [0, 5, -5, 0] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      <LineChart className="w-5 h-5 text-primary" />
+                    </motion.div>
+                    <span>Live Market Trading</span>
+                    <div className="flex items-center space-x-1">
+                      <motion.div
+                        className="w-2 h-2 bg-green-500 rounded-full"
+                        animate={{ scale: [1, 1.5, 1] }}
+                        transition={{ duration: 1, repeat: Infinity }}
+                      />
+                      <span className="text-xs text-green-600">Live</span>
+                    </div>
+                  </CardTitle>
+                  <CardDescription>
+                    Buy and sell stocks with real-time market data simulation
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    {mockStocks.map((stock, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ y: 30, opacity: 0 }}
+                        animate={insightsInView ? { y: 0, opacity: 1 } : {}}
+                        transition={{ duration: 0.5, delay: index * 0.05 }}
+                        whileHover={{
+                          y: -5,
+                          scale: 1.02,
+                          transition: { duration: 0.2 }
+                        }}
+                        className="border rounded-lg p-4 hover:bg-muted/50 transition-colors"
+                      >
+                        <div className="flex items-center space-x-3 mb-3">
+                          <motion.div
+                            whileHover={{ scale: 1.1, rotate: 10 }}
+                            className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center"
+                          >
+                            <span className="text-white font-bold text-sm">{stock.symbol.charAt(0)}</span>
+                          </motion.div>
+                          <div className="flex-1 min-w-0">
+                            <div className="font-bold text-sm">{stock.symbol}</div>
+                            <div className="text-xs text-muted-foreground truncate">{stock.name}</div>
+                          </div>
+                        </div>
+                        
+                        <div className="space-y-2 mb-4">
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-muted-foreground">Price:</span>
+                            <span className="font-bold">${stock.price.toFixed(2)}</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-muted-foreground">Change:</span>
+                            <motion.div
+                              className={`flex items-center space-x-1 ${stock.change >= 0 ? 'text-green-600' : 'text-red-600'}`}
+                              whileHover={{ scale: 1.05 }}
+                            >
+                              <motion.div
+                                animate={{
+                                  y: stock.change >= 0 ? [-1, 1, -1] : [1, -1, 1]
+                                }}
+                                transition={{ duration: 2, repeat: Infinity }}
+                              >
+                                {stock.change >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+                              </motion.div>
+                              <span className="text-xs font-medium">
+                                {stock.change >= 0 ? '+' : ''}{stock.change.toFixed(2)} ({stock.changePercent >= 0 ? '+' : ''}{stock.changePercent.toFixed(2)}%)
+                              </span>
+                            </motion.div>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-muted-foreground">Volume:</span>
+                            <span className="text-xs">{stock.volume}</span>
+                          </div>
+                          {portfolio[stock.symbol] && portfolio[stock.symbol] > 0 && (
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm text-muted-foreground">Owned:</span>
+                              <Badge variant="secondary">{portfolio[stock.symbol]} shares</Badge>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="flex space-x-2">
+                          <motion.div
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="flex-1"
+                          >
+                            <Button
+                              size="sm"
+                              className="w-full bg-green-600 hover:bg-green-700 text-white"
+                              onClick={() => handleBuy(stock.symbol, stock.price)}
+                            >
+                              <ShoppingCart className="w-3 h-3 mr-1" />
+                              Buy
+                            </Button>
+                          </motion.div>
+                          <motion.div
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="flex-1"
+                          >
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="w-full border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
+                              onClick={() => handleSell(stock.symbol, stock.price)}
+                              disabled={!portfolio[stock.symbol] || portfolio[stock.symbol] === 0}
+                            >
+                              <Banknote className="w-3 h-3 mr-1" />
+                              Sell
+                            </Button>
+                          </motion.div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+
             {/* AI Behavioral Insights */}
             <motion.div
               ref={insightsRef}
@@ -368,96 +560,6 @@ export default function Dashboard() {
                       </div>
                     </motion.div>
                   ))}
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Real-time Market Data */}
-            <motion.div
-              initial={{ y: 50, opacity: 0 }}
-              animate={insightsInView ? { y: 0, opacity: 1 } : {}}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <motion.div
-                      animate={{ rotate: [0, 5, -5, 0] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    >
-                      <LineChart className="w-5 h-5 text-primary" />
-                    </motion.div>
-                    <span>Market Simulation</span>
-                    <div className="flex items-center space-x-1">
-                      <motion.div
-                        className="w-2 h-2 bg-green-500 rounded-full"
-                        animate={{ scale: [1, 1.5, 1] }}
-                        transition={{ duration: 1, repeat: Infinity }}
-                      />
-                      <span className="text-xs text-green-600">Live</span>
-                    </div>
-                  </CardTitle>
-                  <CardDescription>
-                    Practice trading with real-time market data
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {mockStocks.map((stock, index) => (
-                      <motion.div
-                        key={index}
-                        initial={{ x: -30, opacity: 0 }}
-                        animate={insightsInView ? { x: 0, opacity: 1 } : {}}
-                        transition={{ duration: 0.5, delay: index * 0.1 }}
-                        whileHover={{
-                          x: 5,
-                          scale: 1.02,
-                          transition: { duration: 0.2 }
-                        }}
-                        className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 transition-colors cursor-pointer"
-                      >
-                        <div className="flex items-center space-x-3">
-                          <motion.div
-                            whileHover={{ scale: 1.1, rotate: 10 }}
-                            className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center"
-                          >
-                            <span className="text-white font-bold text-sm">{stock.symbol.charAt(0)}</span>
-                          </motion.div>
-                          <div>
-                            <div className="font-medium">{stock.symbol}</div>
-                            <div className="text-sm text-muted-foreground">${stock.price.toFixed(2)}</div>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <motion.div
-                            className={`flex items-center space-x-1 ${stock.change >= 0 ? 'text-green-600' : 'text-red-600'}`}
-                            whileHover={{ scale: 1.1 }}
-                          >
-                            <motion.div
-                              animate={{
-                                y: stock.change >= 0 ? [-2, 2, -2] : [2, -2, 2]
-                              }}
-                              transition={{ duration: 2, repeat: Infinity }}
-                            >
-                              {stock.change >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
-                            </motion.div>
-                            <span className="font-medium">{stock.change >= 0 ? '+' : ''}{stock.change.toFixed(2)}</span>
-                          </motion.div>
-                          <div className={`text-sm ${stock.changePercent >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                            {stock.changePercent >= 0 ? '+' : ''}{stock.changePercent.toFixed(2)}%
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <Button className="w-full mt-4" variant="outline">
-                      Open Trading Simulator
-                    </Button>
-                  </motion.div>
                 </CardContent>
               </Card>
             </motion.div>
