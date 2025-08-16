@@ -253,22 +253,37 @@ export default function Index() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
-            <CardHeader>
-              <div className="w-12 h-12 gradient-stockquest rounded-lg flex items-center justify-center mb-4">
-                <Brain className="w-6 h-6 text-white" />
-              </div>
-              <CardTitle>AI Behavioral Analysis</CardTitle>
-              <CardDescription>
-                Real-time detection of trading patterns like FOMO, panic-selling, and overtrading
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                "You panic-sell too quickly — here's how to build long-term investing habits."
-              </p>
-            </CardContent>
-          </Card>
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={featuresInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            whileHover={{
+              y: -10,
+              scale: 1.02,
+              transition: { duration: 0.2 }
+            }}
+          >
+            <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl h-full">
+              <CardHeader>
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className="w-12 h-12 gradient-stockquest rounded-lg flex items-center justify-center mb-4"
+                >
+                  <Brain className="w-6 h-6 text-white" />
+                </motion.div>
+                <CardTitle>AI Behavioral Analysis</CardTitle>
+                <CardDescription>
+                  Real-time detection of trading patterns like FOMO, panic-selling, and overtrading
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  "You panic-sell too quickly — here's how to build long-term investing habits."
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
           
           <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
             <CardHeader>
