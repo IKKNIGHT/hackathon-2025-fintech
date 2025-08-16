@@ -285,90 +285,165 @@ export default function Index() {
             </Card>
           </motion.div>
           
-          <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
-            <CardHeader>
-              <div className="w-12 h-12 gradient-finance rounded-lg flex items-center justify-center mb-4">
-                <BarChart3 className="w-6 h-6 text-white" />
-              </div>
-              <CardTitle>Real-time Market Simulation</CardTitle>
-              <CardDescription>
-                Practice with live market data through event-driven streams and microservices
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Experience real market volatility without financial risk
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
-            <CardHeader>
-              <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mb-4">
-                <Gamepad2 className="w-6 h-6 text-white" />
-              </div>
-              <CardTitle>Gamified Learning</CardTitle>
-              <CardDescription>
-                Level up your financial skills through engaging challenges and achievements
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Turn learning into an addictive, rewarding experience
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
-            <CardHeader>
-              <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center mb-4">
-                <Target className="w-6 h-6 text-white" />
-              </div>
-              <CardTitle>Personalized Insights</CardTitle>
-              <CardDescription>
-                Custom feedback based on your unique behavioral finance profile
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                AI adapts to your learning style and risk tolerance
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
-            <CardHeader>
-              <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center mb-4">
-                <Users className="w-6 h-6 text-white" />
-              </div>
-              <CardTitle>Social Learning</CardTitle>
-              <CardDescription>
-                Connect with peers, share strategies, and learn together
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Build financial confidence through community support
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
-            <CardHeader>
-              <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-lg flex items-center justify-center mb-4">
-                <Shield className="w-6 h-6 text-white" />
-              </div>
-              <CardTitle>Cloud-Native Architecture</CardTitle>
-              <CardDescription>
-                Kubernetes-ready microservices ensuring scalability and reliability
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Enterprise-grade infrastructure built for the future
-              </p>
-            </CardContent>
-          </Card>
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={featuresInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            whileHover={{
+              y: -10,
+              scale: 1.02,
+              transition: { duration: 0.2 }
+            }}
+          >
+            <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl h-full">
+              <CardHeader>
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className="w-12 h-12 gradient-finance rounded-lg flex items-center justify-center mb-4"
+                >
+                  <BarChart3 className="w-6 h-6 text-white" />
+                </motion.div>
+                <CardTitle>Real-time Market Simulation</CardTitle>
+                <CardDescription>
+                  Practice with live market data through event-driven streams and microservices
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  Experience real market volatility without financial risk
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={featuresInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            whileHover={{
+              y: -10,
+              scale: 1.02,
+              transition: { duration: 0.2 }
+            }}
+          >
+            <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl h-full">
+              <CardHeader>
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mb-4"
+                >
+                  <Gamepad2 className="w-6 h-6 text-white" />
+                </motion.div>
+                <CardTitle>Gamified Learning</CardTitle>
+                <CardDescription>
+                  Level up your financial skills through engaging challenges and achievements
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  Turn learning into an addictive, rewarding experience
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={featuresInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            whileHover={{
+              y: -10,
+              scale: 1.02,
+              transition: { duration: 0.2 }
+            }}
+          >
+            <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl h-full">
+              <CardHeader>
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center mb-4"
+                >
+                  <Target className="w-6 h-6 text-white" />
+                </motion.div>
+                <CardTitle>Personalized Insights</CardTitle>
+                <CardDescription>
+                  Custom feedback based on your unique behavioral finance profile
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  AI adapts to your learning style and risk tolerance
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={featuresInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            whileHover={{
+              y: -10,
+              scale: 1.02,
+              transition: { duration: 0.2 }
+            }}
+          >
+            <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl h-full">
+              <CardHeader>
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center mb-4"
+                >
+                  <Users className="w-6 h-6 text-white" />
+                </motion.div>
+                <CardTitle>Social Learning</CardTitle>
+                <CardDescription>
+                  Connect with peers, share strategies, and learn together
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  Build financial confidence through community support
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={featuresInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            whileHover={{
+              y: -10,
+              scale: 1.02,
+              transition: { duration: 0.2 }
+            }}
+          >
+            <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl h-full">
+              <CardHeader>
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-lg flex items-center justify-center mb-4"
+                >
+                  <Shield className="w-6 h-6 text-white" />
+                </motion.div>
+                <CardTitle>Cloud-Native Architecture</CardTitle>
+                <CardDescription>
+                  Kubernetes-ready microservices ensuring scalability and reliability
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  Enterprise-grade infrastructure built for the future
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
         </div>
       </section>
 
