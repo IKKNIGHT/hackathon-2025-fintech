@@ -21,7 +21,46 @@ import {
 import { motion, useInView } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 
+// Animated Counter Component
+function AnimatedCounter({ end, duration = 2, suffix = "", prefix = "" }: {
+  end: number,
+  duration?: number,
+  suffix?: string,
+  prefix?: string
+}) {
+  const [count, setCount] = useState(0)
+  const countRef = useRef(null)
+  const isInView = useInView(countRef, { once: true })
+
+  useEffect(() => {
+    if (isInView) {
+      let start = 0
+      const increment = end / (duration * 60)
+      const timer = setInterval(() => {
+        start += increment
+        if (start >= end) {
+          setCount(end)
+          clearInterval(timer)
+        } else {
+          setCount(Math.floor(start))
+        }
+      }, 1000 / 60)
+      return () => clearInterval(timer)
+    }
+  }, [isInView, end, duration])
+
+  return <span ref={countRef}>{prefix}{count.toLocaleString()}{suffix}</span>
+}
+
 export default function Dashboard() {
+  const headerRef = useRef(null)
+  const statsRef = useRef(null)
+  const insightsRef = useRef(null)
+
+  const headerInView = useInView(headerRef, { once: true })
+  const statsInView = useInView(statsRef, { once: true })
+  const insightsInView = useInView(insightsRef, { once: true })
+
   const mockStocks = [
     { symbol: 'AAPL', price: 185.25, change: 2.34, changePercent: 1.28 },
     { symbol: 'GOOGL', price: 2847.91, change: -15.42, changePercent: -0.54 },
