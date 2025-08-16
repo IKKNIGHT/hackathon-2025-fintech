@@ -226,17 +226,32 @@ export default function Index() {
       </section>
 
       {/* Features Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">
+      <section ref={featuresRef} className="container mx-auto px-4 py-20">
+        <motion.div
+          initial={{ y: 50, opacity: 0 }}
+          animate={featuresInView ? { y: 0, opacity: 1 } : {}}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
+        >
+          <motion.h2
+            initial={{ y: 30, opacity: 0 }}
+            animate={featuresInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-4xl font-bold mb-4"
+          >
             Why Choose <span className="text-gradient">StockQuest</span>?
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Our platform combines cutting-edge AI with proven behavioral finance principles 
+          </motion.h2>
+          <motion.p
+            initial={{ y: 30, opacity: 0 }}
+            animate={featuresInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-xl text-muted-foreground max-w-2xl mx-auto"
+          >
+            Our platform combines cutting-edge AI with proven behavioral finance principles
             to create the most effective financial education experience.
-          </p>
-        </div>
-        
+          </motion.p>
+        </motion.div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
             <CardHeader>
