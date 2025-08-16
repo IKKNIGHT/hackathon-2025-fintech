@@ -6,9 +6,43 @@ import { ArrowRight, Brain, TrendingUp, Target, Users, Shield, Zap, BarChart3, G
 import { motion, useInView } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 
+// Animated Counter Component
+function AnimatedCounter({ end, duration = 2, suffix = "" }: { end: number, duration?: number, suffix?: string }) {
+  const [count, setCount] = useState(0)
+  const countRef = useRef(null)
+  const isInView = useInView(countRef, { once: true })
+
+  useEffect(() => {
+    if (isInView) {
+      let start = 0
+      const increment = end / (duration * 60)
+      const timer = setInterval(() => {
+        start += increment
+        if (start >= end) {
+          setCount(end)
+          clearInterval(timer)
+        } else {
+          setCount(Math.floor(start))
+        }
+      }, 1000 / 60)
+      return () => clearInterval(timer)
+    }
+  }, [isInView, end, duration])
+
+  return <span ref={countRef}>{count.toLocaleString()}{suffix}</span>
+}
+
 export default function Index() {
+  const heroRef = useRef(null)
+  const featuresRef = useRef(null)
+  const ctaRef = useRef(null)
+
+  const heroInView = useInView(heroRef, { once: true })
+  const featuresInView = useInView(featuresRef, { once: true })
+  const ctaInView = useInView(ctaRef, { once: true })
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-blue-50/30 to-purple-50/20">
+    <div className="min-h-screen bg-gradient-to-br from-background via-blue-50/30 to-purple-50/20 overflow-hidden">
       {/* Navigation */}
       <nav className="border-b bg-background/80 backdrop-blur-lg sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
